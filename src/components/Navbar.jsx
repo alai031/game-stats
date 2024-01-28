@@ -19,7 +19,7 @@ const Navbar = () => {
   return (
     <div className='flex items-center justify-between p-4 z-[100] w-full absolute'>
         <Link to='/'>
-            <h1 className='text-red-600 text-4xl font-bold cursor-pointer'>
+            <h1 className='text-blue-400 text-4xl font-bold cursor-pointer'>
                 Game Stats
             </h1>
         </Link>
@@ -32,7 +32,7 @@ const Navbar = () => {
                 </Link>
                     <button 
                         onClick={handleLogout} 
-                        className='bg-red-600 px-6 py-2 rounded cursor-pointer text-white'
+                        className='bg-blue-600 px-6 py-2 rounded cursor-pointer text-white'
                     >
                         Logout
                     </button>
@@ -45,7 +45,7 @@ const Navbar = () => {
                     </button>
                 </Link>
                 <Link to='/signup'>
-                    <button className='bg-red-600 px-6 py-2 rounded cursor-pointer text-white'>
+                    <button className='bg-blue-600 px-6 py-2 rounded cursor-pointer text-white'>
                         Sign Up
                     </button>
                 </Link>
