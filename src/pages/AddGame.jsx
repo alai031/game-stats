@@ -53,7 +53,8 @@ const AddGame = () => {
                     GameType: gameOption,
                     GameUsername: summonerName,
                     GameLevel: summonerLvl,
-                    GameRank: soloRank
+                    GameRank: soloRank, 
+                    GameProfilePic: summonerProfilePic
                 })
             })
             navigate('/account')
