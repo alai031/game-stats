@@ -1,89 +1,111 @@
-import React, { useState, useEffect } from 'react'
-import {db} from '../firebase'
-import { doc, updateDoc, onSnapshot} from "firebase/firestore";
-import {UserAuth} from '../context/AuthContext';
-import {AiOutlineClose} from 'react-icons/ai'
-import unrankedIcon from '../images/unranked.webp'
-import ironIcon from '../images/iron.webp'
-import bronzeIcon from '../images/bronze.webp'
-import silverIcon from '../images/silver.webp'
-import goldIcon from '../images/gold.webp'
-import platinumIcon from '../images/platinum.webp'
-import emeraldIcon from '../images/emerald.webp'
-import diamondIcon from '../images/diamond.webp'
-import masterIcon from '../images/master.webp'
-import grandmasterIcon from '../images/grandmaster.webp'
-import challengerIcon from '../images/challenger.webp'
+import React, { useState, useEffect } from "react";
+import { db } from "../firebase";
+import { doc, updateDoc, onSnapshot } from "firebase/firestore";
+import { UserAuth } from "../context/AuthContext";
+import { AiOutlineClose } from "react-icons/ai";
+import ironIcon from "../images/iron.webp";
+import bronzeIcon from "../images/bronze.webp";
+import silverIcon from "../images/silver.webp";
+import goldIcon from "../images/gold.webp";
+import platinumIcon from "../images/platinum.webp";
+import emeraldIcon from "../images/emerald.webp";
+import diamondIcon from "../images/diamond.webp";
+import masterIcon from "../images/master.webp";
+import grandmasterIcon from "../images/grandmaster.webp";
+import leagueIcon from "../images/LeagueIcon.png";
+import Challenger from "../leagueRankDisplays/Challenger";
+import Unranked from "../leagueRankDisplays/Unranked";
+import LeagueRank from "../leagueRankDisplays/LeagueRank";
 
 const GameStats = () => {
   const { user } = UserAuth();
-  const statRef = doc(db, 'users', `${user?.email}`)
-  const [gameStats, setGameStats] = useState([])
+  const statRef = doc(db, "users", `${user?.email}`);
+  const [gameStats, setGameStats] = useState([]);
 
   useEffect(() => {
-    onSnapshot(doc(db, 'users', `${user?.email}`), (doc) => {
-        setGameStats(doc.data()?.savedGames);
-    })
+    onSnapshot(doc(db, "users", `${user?.email}`), (doc) => {
+      setGameStats(doc.data()?.savedGames);
+    });
   }, [user?.email]);
 
   const deleteStat = async (GameUsername) => {
     try {
-        const result = gameStats.filter((stat) => stat.GameUsername !== GameUsername);
-        await updateDoc(statRef, {
-            savedGames: result,
-        });
+      const result = gameStats.filter(
+        (stat) => stat.GameUsername !== GameUsername
+      );
+      await updateDoc(statRef, {
+        savedGames: result,
+      });
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
-    <div className='w-full'>
-            {gameStats.map((stat) => (
-                <div className='bg-blue-300 min-h-[200px] my-3'>
-                    {stat.GameType == "League of Legends" ? <div className='max-h-[200px]'>
-                                                                {/* top half */}
-                                                                <div className='flex'>
-                                                                <img 
-                                                                  className='rounded-full w-[100px] h-[100px]'
-                                                                  src={stat.GameProfilePic}
-                                                                  alt=''
-                                                                />
-                                                                {stat.GameType} <br/>
-                                                                {stat.GameUsername} <br/>
-                                                                {stat.GameLevel} <br/>
-                                                                {(stat.GameRank).includes("CHALLENGER") ? <div className='flex'>
-                                                                                                            challenger icon  <br></br>
+    <div className="w-full">
+      {gameStats.map((stat) => (
+        <div className="bg-blue-300 h-[200px] my-3">
+          {stat.GameType == "League of Legends" ? (
+            <div className="flex h-full">
+              {/* top half */}
+              <div className="w-2/5">
+                <div className="flex h-full">
+                  <div className="pl-2 pr-6 pt-4 shrink-0">
+                    <img
+                      className="rounded-full w-[150px] h-[150px]"
+                      src={stat.GameProfilePic}
+                      alt=""
+                    />
+                  </div>
 
-                                                                                                            <div className='flex-column text-center'>
-                                                                                                              <img 
-                                                                                                                className='max-w-[150px] max-h-[150px]'
-                                                                                                                src={challengerIcon} 
-                                                                                                                alt=''
-                                                                                                              />
-                                                                                                              <div className='relative bottom-4'>
-                                                                                                                <p>{(stat.GameRank).substring(0, (stat.GameRank).indexOf(' ', 11))}</p>
-                                                                                                                <p>{(stat.GameRank).substring( ((stat.GameRank).indexOf(' ', 11)) + 1)}</p>
-                                                                                                              </div>
-                                                                                                            </div>
-
-                                                                                                          </div>
-                                                                                                          : <div>Not challenger</div>}
-                                                                {/* {stat.GameRank} <br/> */}
-                                                                <p onClick={() => deleteStat(stat.GameUsername)} className='hover:cursor-pointer'><AiOutlineClose /></p>
-                                                                </div>
-
-                                                                {/* bot half */}
-                                                                <div className='flex'>
-                                                                </div>
-                                                            </div> 
-                                                        :   <div>
-                                                            </div>
-                    }
+                  <div className="flex h-full items-center text-center mx-auto">
+                    <div className="">
+                      <p className="text-[30px]">{stat.GameUsername}</p>
+                      <p className="text-lg"> Level {stat.GameLevel}</p>
+                    </div>
+                  </div>
                 </div>
-            ))}
-    </div>
-  )
-}
+              </div>
 
-export default GameStats
+              <div className="w-2/5">
+                <LeagueRank gameRank={stat.GameRank} />
+              </div>
+
+              {/* {stat.GameRank} <br/> */}
+
+              <div className="flex w-1/5">
+                <div className="ml-12 flex w-full h-full items-center justify-center">
+                  {stat.GameType == "League of Legends" ? (
+                    <img
+                      className="max-w-[100px] max-h-[100px]"
+                      src={leagueIcon}
+                      alt=""
+                    />
+                  ) : (
+                    <></>
+                  )}
+                </div>
+
+                <div className="">
+                  <p
+                    onClick={() => deleteStat(stat.GameUsername)}
+                    className="pt-3 pr-3 hover:cursor-pointer"
+                  >
+                    <AiOutlineClose />
+                  </p>
+                </div>
+              </div>
+
+              {/* bot half */}
+              <div className="flex"></div>
+            </div>
+          ) : (
+            <div></div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default GameStats;
