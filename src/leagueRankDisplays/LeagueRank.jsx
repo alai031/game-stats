@@ -1,7 +1,15 @@
 import React from "react";
 import Challenger from "./Challenger";
+import Grandmaster from "./Grandmaster";
+import Master from "./Master";
 import Diamond from "./Diamond";
-import Unranked from "../leagueRankDisplays/Unranked";
+import Emerald from "./Emerald";
+import Platinum from "./Platinum";
+import Gold from "./Gold";
+import Silver from "./Silver";
+import Bronze from "./Bronze";
+import Iron from "./Iron";
+import Unranked from "./Unranked";
 
 const LeagueRank = (props) => {
   return (
@@ -15,14 +23,16 @@ const LeagueRank = (props) => {
 
       {/* Grandmaster */}
       {props.gameRank.includes("GRANDMASTER") ? (
-        <Challenger gameRank={props.gameRank} />
+        <Grandmaster gameRank={props.gameRank} />
       ) : (
         <></>
       )}
 
       {/* Master */}
-      {props.gameRank.includes("MASTER") ? (
-        <Challenger gameRank={props.gameRank} />
+      {props.gameRank.includes("MASTER") && props.gameRank[0] != "G" ? (
+        <div>
+          <Master gameRank={props.gameRank} />
+        </div>
       ) : (
         <></>
       )}
@@ -36,42 +46,42 @@ const LeagueRank = (props) => {
 
       {/* Emerald */}
       {props.gameRank.includes("EMERALD") ? (
-        <Challenger gameRank={props.gameRank} />
+        <Emerald gameRank={props.gameRank} />
       ) : (
         <></>
       )}
 
       {/* Platinum */}
       {props.gameRank.includes("PLATINUM") ? (
-        <Challenger gameRank={props.gameRank} />
+        <Platinum gameRank={props.gameRank} />
       ) : (
         <></>
       )}
 
       {/* Gold */}
       {props.gameRank.includes("GOLD") ? (
-        <Challenger gameRank={props.gameRank} />
+        <Gold gameRank={props.gameRank} />
       ) : (
         <></>
       )}
 
       {/* Silver */}
       {props.gameRank.includes("SILVER") ? (
-        <Challenger gameRank={props.gameRank} />
+        <Silver gameRank={props.gameRank} />
       ) : (
         <></>
       )}
 
       {/* Bronze */}
       {props.gameRank.includes("BRONZE") ? (
-        <Challenger gameRank={props.gameRank} />
+        <Bronze gameRank={props.gameRank} />
       ) : (
         <></>
       )}
 
       {/* Iron */}
       {props.gameRank.includes("IRON") ? (
-        <Challenger gameRank={props.gameRank} />
+        <Iron gameRank={props.gameRank} />
       ) : (
         <></>
       )}

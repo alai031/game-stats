@@ -42,9 +42,9 @@ const GameStats = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-[90%] mx-auto">
       {gameStats.map((stat) => (
-        <div className="bg-blue-300 h-[200px] my-3">
+        <div className="bg-blue-300 h-[200px] my-3 border-[3px] border-black">
           {stat.GameType == "League of Legends" ? (
             <div className="flex h-full">
               {/* top half */}
@@ -52,7 +52,7 @@ const GameStats = () => {
                 <div className="flex h-full">
                   <div className="pl-2 pr-6 pt-4 shrink-0">
                     <img
-                      className="rounded-full w-[150px] h-[150px]"
+                      className="rounded-full w-[150px] h-[150px] border-[3px] border-black"
                       src={stat.GameProfilePic}
                       alt=""
                     />
@@ -60,7 +60,7 @@ const GameStats = () => {
 
                   <div className="flex h-full items-center text-center mx-auto">
                     <div className="">
-                      <p className="text-[30px]">{stat.GameUsername}</p>
+                      <p className="text-[27px]">{stat.GameUsername}</p>
                       <p className="text-lg"> Level {stat.GameLevel}</p>
                     </div>
                   </div>
@@ -74,7 +74,7 @@ const GameStats = () => {
               {/* {stat.GameRank} <br/> */}
 
               <div className="flex w-1/5">
-                <div className="ml-12 flex w-full h-full items-center justify-center">
+                <div className="ml-8 flex w-full h-full items-center justify-center">
                   {stat.GameType == "League of Legends" ? (
                     <img
                       className="max-w-[100px] max-h-[100px]"

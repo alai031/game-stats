@@ -9,7 +9,9 @@ const Unranked = (props) => {
         src={unrankedIcon}
         alt=""
       />
-      <div className="text-center relative bottom-4">{props.gameRank}</div>
+      <div className="text-center relative bottom-4 left-4">
+        {props.gameRank}
+      </div>
     </div>
   );
 };

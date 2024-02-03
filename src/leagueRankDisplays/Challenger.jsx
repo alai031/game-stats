@@ -9,7 +9,7 @@ const Challenger = (props) => {
         src={challengerIcon}
         alt=""
       />
-      <div className="text-center relative bottom-4">
+      <div className="text-center relative bottom-4 left-4">
         <p>{props.gameRank.substring(0, props.gameRank.indexOf(" ", 11))}</p>
         <p className="">
           {props.gameRank.substring(props.gameRank.indexOf(" ", 11) + 1)}

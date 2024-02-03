@@ -9,10 +9,10 @@ const Diamond = (props) => {
         src={diamondIcon}
         alt=""
       />
-      <div className="text-center relative bottom-4">
-        <p>{props.gameRank.substring(0, props.gameRank.indexOf(" ", 11))}</p>
+      <div className="text-center relative bottom-4 left-4">
+        <p>{props.gameRank.substring(0, props.gameRank.indexOf(" ", 8))}</p>
         <p className="">
-          {props.gameRank.substring(props.gameRank.indexOf(" ", 11) + 1)}
+          {props.gameRank.substring(props.gameRank.indexOf(" ", 8) + 1)}
         </p>
       </div>
     </div>
