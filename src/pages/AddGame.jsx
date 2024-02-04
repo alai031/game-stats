@@ -24,7 +24,7 @@ const AddGame = () => {
   const [usernameFound, setUsernameFound] = useState(false);
   const navigate = useNavigate();
 
-  const statID = doc(db, "users", `${user?.email}`);
+  const statID = doc(db, "users", `${user?.displayName}`);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,7 +57,7 @@ const AddGame = () => {
             GameProfilePic: summonerProfilePic,
           }),
         });
-        navigate("/account");
+        navigate(`/${user.displayName}`);
       } catch (error) {
         alert("Failed to save game stat to db");
       }

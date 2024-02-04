@@ -16,19 +16,25 @@ import leagueIcon from "../images/LeagueIcon.png";
 import Challenger from "../leagueRankDisplays/Challenger";
 import Unranked from "../leagueRankDisplays/Unranked";
 import LeagueRank from "../leagueRankDisplays/LeagueRank";
+import { useParams } from "react-router-dom";
 
 const GameStats = () => {
+  const urlParam = useParams();
+  console.log(urlParam.displayName);
   const { user } = UserAuth();
-  const statRef = doc(db, "users", `${user?.email}`);
+  /* const statRef = doc(db, "users", `${user?.displayName}`); */
+  const statRef = doc(db, "users", urlParam.displayName);
   const [gameStats, setGameStats] = useState([]);
 
   useEffect(() => {
-    onSnapshot(doc(db, "users", `${user?.email}`), (doc) => {
+    /* onSnapshot(doc(db, "users", `${user?.displayName}`), (doc) => { */
+    onSnapshot(doc(db, "users", urlParam.displayName), (doc) => {
       setGameStats(doc.data()?.savedGames);
     });
-  }, [user?.email]);
+  }, [urlParam.displayName]);
 
   const deleteStat = async (GameUsername) => {
+    //console.log(urlParam.displayName);
     try {
       const result = gameStats.filter(
         (stat) => stat.GameUsername !== GameUsername
