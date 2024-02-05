@@ -20,12 +20,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route
-            /* path='/account'  */
-            path="/:displayName"
-            element={<Account />}
-          />
           <Route path="/addGame" element={<AddGame />} />
+          <Route path="/:displayName" element={<Account />} />
         </Routes>
       </AuthContextProvider>
     </>

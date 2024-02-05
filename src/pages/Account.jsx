@@ -1,8 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import GameStats from "../components/GameStats";
+import { UserAuth } from "../context/AuthContext";
+import { useParams } from "react-router-dom";
 
 const Account = () => {
+  const { user } = UserAuth();
+  const urlParam = useParams();
+
   return (
     <div className="w-full h-[100%] bg-gray-700 flex">
       <div className="w-full px-y py-24 z-50">
@@ -13,13 +18,18 @@ const Account = () => {
                 {/* profile pic */}
               </div>
             </div>
+            <div className="pl-16 text-[40px]">{urlParam.displayName}</div>
           </div>
 
-          <div className="flex justify-end">
-            <button className="shadow-xl shadow-gray-400 rounded-xl uppercase bg-gradient-to-r from-[#5651e5] to-[#709dff] text-white px-8 py-2 mt-6 mr-6">
-              <Link to="/addGame">Add a new game stat</Link>
-            </button>
-          </div>
+          {user?.displayName == urlParam.displayName ? (
+            <div className="flex justify-end">
+              <button className="shadow-xl shadow-gray-400 rounded-xl uppercase bg-gradient-to-r from-[#5651e5] to-[#709dff] text-white px-8 py-2 mt-6 mr-6">
+                <Link to="/addGame">Add a new game stat</Link>
+              </button>
+            </div>
+          ) : (
+            <></>
+          )}
 
           {/* Game stats */}
           <div className="flex w-full">

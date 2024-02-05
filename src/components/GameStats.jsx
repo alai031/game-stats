@@ -17,6 +17,7 @@ import Challenger from "../leagueRankDisplays/Challenger";
 import Unranked from "../leagueRankDisplays/Unranked";
 import LeagueRank from "../leagueRankDisplays/LeagueRank";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const GameStats = () => {
   const urlParam = useParams();
@@ -25,11 +26,18 @@ const GameStats = () => {
   /* const statRef = doc(db, "users", `${user?.displayName}`); */
   const statRef = doc(db, "users", urlParam.displayName);
   const [gameStats, setGameStats] = useState([]);
+  const navigate = useNavigate();
+  /* console.log("HM", urlParam.displayName);
+  console.log(user.displayName); */
 
   useEffect(() => {
     /* onSnapshot(doc(db, "users", `${user?.displayName}`), (doc) => { */
     onSnapshot(doc(db, "users", urlParam.displayName), (doc) => {
-      setGameStats(doc.data()?.savedGames);
+      if (doc.data() == undefined) {
+        navigate("/");
+      } else {
+        setGameStats(doc.data()?.savedGames);
+      }
     });
   }, [urlParam.displayName]);
 
@@ -92,14 +100,18 @@ const GameStats = () => {
                   )}
                 </div>
 
-                <div className="">
-                  <p
-                    onClick={() => deleteStat(stat.GameUsername)}
-                    className="pt-3 pr-3 hover:cursor-pointer"
-                  >
-                    <AiOutlineClose />
-                  </p>
-                </div>
+                {user?.displayName == urlParam.displayName ? (
+                  <div className="">
+                    <p
+                      onClick={() => deleteStat(stat.GameUsername)}
+                      className="pt-3 pr-3 hover:cursor-pointer"
+                    >
+                      <AiOutlineClose />
+                    </p>
+                  </div>
+                ) : (
+                  <></>
+                )}
               </div>
 
               {/* bot half */}
