@@ -21,6 +21,8 @@ export function AuthContextProvider({ children }) {
     });
     setDoc(doc(db, "users", username), {
       savedGames: [],
+      profilePic: null,
+      profileBackgroundPic: null,
     });
   }
 

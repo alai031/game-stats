@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext";
+import videoGameBackground from "../images/videoGameBackground.jpg";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -24,7 +25,7 @@ const Signup = () => {
       <div className="w-full h-screen">
         <img
           className="hidden sm:block absolute w-full h-full object-cover"
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/32c47234-8398-4a4f-a6b5-6803881d38bf/1c62583a-d303-4d33-b45b-d137582941c4/US-en-20240122-popsignuptwoweeks-perspective_alpha_website_large.jpg"
+          src={videoGameBackground}
           alt="/"
         />
         <div className="bg-black/60 fixed top-0 left-0 w-full h-screen"></div>

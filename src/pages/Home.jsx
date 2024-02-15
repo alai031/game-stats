@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
+import homeBackground from "../images/homeBackground.jpg";
 
 const Home = () => {
   const [username, setUsername] = useState("");
@@ -24,7 +25,12 @@ const Home = () => {
 
   return (
     <div className="w-full h-screen text-center bg-gray-700">
-      <div className="max-w-[1240px] w-full h-full mx-auto p-2 flex justify-center items-center">
+      <img
+        className="hidden sm:block absolute w-full h-full object-cover"
+        src={homeBackground}
+        alt="/"
+      />
+      <div className="fixed w-full h-full mx-auto p-2 flex justify-center items-center">
         <div className="flex-col">
           <div>
             <p className="text-blue-400 text-[80px]">Game Stats</p>
