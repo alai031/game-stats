@@ -9,6 +9,10 @@ import { arrayUnion, doc, updateDoc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineClose } from "react-icons/ai";
+import defaultProfilePic from "../images/defaultProfilePic.png";
+import defaultProfileBackgroundPic from "../images/defaultProfileBackground.jpg";
+import ImageUploadingButton from "../components/ImageUploadingButton";
+import ImageCropper from "../components/ImageCropper";
 
 const Account = () => {
   const [profilePic, setProfilePic] = useState(null);
@@ -20,6 +24,9 @@ const Account = () => {
   const statID = doc(db, "users", `${user?.displayName}`);
   const navigate = useNavigate();
   const [profileImg, setProfileImg] = useState(false);
+  const [backgroundToggle, setBackgroundToggle] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [image, setImage] = useState([]);
 
   const onClose = () => {
     setProfileImg(false);
@@ -34,7 +41,17 @@ const Account = () => {
     } catch (error) {
       alert("Failed to save profile pic");
     }
-    //setPreview(view);
+  };
+
+  const onCropBackgroundPic = async (view) => {
+    console.log("HEY", view);
+    try {
+      await updateDoc(statID, {
+        profileBackgroundPic: view,
+      });
+    } catch (error) {
+      alert("Failed to save background profile pic");
+    }
   };
 
   useEffect(() => {
@@ -44,39 +61,92 @@ const Account = () => {
         navigate("/");
       } else {
         setProfilePic(doc.data()?.profilePic);
+        setBackgroundProfilePic(doc.data()?.profileBackgroundPic);
       }
     });
   }, [urlParam.displayName]);
 
   const handleProfilePicClick = () => {
     setProfileImg(true);
+    setBackgroundToggle(false);
+  };
+
+  const handleProfileBackgroundPicClick = () => {
+    setProfileImg(true);
+    setBackgroundToggle(true);
   };
 
   return (
     <div className="w-full bg-gradient-to-r from-gray-700 to-blue-400 flex">
       <div className="w-full px-y py-24 z-50">
-        <div className="flex-column max-w-[850px] min-h-[600px] mx-auto bg-gray-400 text-white">
-          <div className="flex items-center w-full h-[200px] bg-black">
-            <div className="pl-16">
+        <div className="flex-column max-w-[850px] min-h-[600px] mx-auto bg-gray-400 text-white rounded-xl">
+          <div className="flex items-center w-[full] h-[200px] bg-black rounded-t-xl">
+            <img
+              className="absolute object-fill w-[850px] h-[200px] rounded-t-xl"
+              src={
+                backgroundProfilePic == null
+                  ? defaultProfileBackgroundPic
+                  : backgroundProfilePic
+              }
+              alt="/"
+            />
+            <div className="pl-16 z-10">
               {user?.displayName == urlParam.displayName ? (
-                <div>
-                  <button onClick={handleProfilePicClick}>
-                    <img
-                      className="w-[130px] h-[130px] rounded-full bg-white"
-                      src={profilePic}
-                      alt="/"
-                    />
-                  </button>
-                </div>
+                //<div className="w-[130px] h-[130px] rounded-full bg-gray-300">
+                <button onClick={handleProfilePicClick}>
+                  <img
+                    className="w-[160px] h-[160px] rounded-full border-4 border-white"
+                    src={profilePic == null ? defaultProfilePic : profilePic}
+                    alt="/"
+                  />
+                </button>
               ) : (
+                //</div>
                 <img
-                  className="w-[130px] h-[130px] rounded-full bg-white"
-                  src={profilePic}
+                  className="w-[160px] h-[160px] rounded-full border-4 border-white"
+                  src={profilePic == null ? defaultProfilePic : profilePic}
                   alt="/"
                 />
               )}
             </div>
-            <div className="pl-16 text-[40px]">{urlParam.displayName}</div>
+            {user?.displayName == urlParam.displayName ? (
+              <div className="relative bottom-[32%] left-[67%]">
+                <ImageUploadingButton
+                  className="w-[30px] h-[30px] z-10 bg-white rounded-full"
+                  value={image}
+                  onChange={(newImage) => {
+                    setDialogOpen(true);
+                    setImage(newImage);
+                  }}
+                />
+                <ImageCropper
+                  open={dialogOpen}
+                  image={image.length > 0 && image[0].dataURL}
+                  onComplete={(imagePromisse) => {
+                    imagePromisse.then((image) => {
+                      setBackgroundProfilePic(image);
+                      onCropBackgroundPic(image);
+                      setDialogOpen(false);
+                    });
+                  }}
+                  containerStyle={{
+                    position: "relative",
+                    width: "100%",
+                    height: 300,
+                    background: "#333",
+                  }}
+                />
+              </div>
+            ) : (
+              <></>
+            )}
+            <div className="pl-4 text-[40px] z-10">{urlParam.displayName}</div>
+            {/* <button
+              onClick={handleProfileBackgroundPicClick}
+              className="w-[30px] h-[30px] relative bottom-[33%] left-[47%] z-10 bg-white rounded-full"
+            >
+              HEY
+            </button> */}
           </div>
 
           {user?.displayName == urlParam.displayName ? (
@@ -91,7 +161,7 @@ const Account = () => {
             <></>
           )}
           {/* Game stats */}
-          <div className="flex w-full">
+          <div className="flex w-full pb-6">
             <GameStats />
           </div>
         </div>
@@ -121,7 +191,9 @@ const Account = () => {
                   labelStyle={{ color: "black" }}
                   width={300}
                   height={300}
-                  onCrop={onCrop}
+                  onCrop={
+                    backgroundToggle == false ? onCrop : onCropBackgroundPic
+                  }
                   onClose={onClose}
                   src={src}
                 />
