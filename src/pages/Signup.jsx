@@ -45,17 +45,17 @@ const Signup = () => {
                   autoComplete="email"
                 />
                 <input
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="p-3 my-2 bg-gray-700 rounded"
+                  type="username"
+                  placeholder="Username"
+                />
+                <input
                   onChange={(e) => setPassword(e.target.value)}
                   className="p-3 my-2 bg-gray-700 rounded"
                   type="password"
                   placeholder="Password"
                   autoComplete="current-password"
-                />
-                <input
-                  onChange={(e) => setUsername(e.target.value)}
-                  className="p-3 my-2 bg-gray-700 rounded"
-                  type="username"
-                  placeholder="Username"
                 />
                 <button className="bg-red-600 py-3 my-6 rounded font-bold">
                   Sign Up
