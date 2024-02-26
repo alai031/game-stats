@@ -44,7 +44,7 @@ const Home = () => {
                 onChange={(e) => setUsername(e.target.value)}
                 className="outline-none p-3 my-2 bg-white-700 rounded border-[3px] border-blue-400"
                 type="username"
-                placeholder="Search for a user"
+                placeholder="Search for a user (Type '123456' to see example)"
               />
               {!usernameFound ? (
                 <div className="text-blue-500 font-medium">

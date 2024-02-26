@@ -79,10 +79,10 @@ const Account = () => {
   return (
     <div className="w-full bg-gradient-to-r from-gray-700 to-blue-400 flex">
       <div className="w-full px-y py-24 z-50">
-        <div className="flex-column max-w-[850px] min-h-[600px] mx-auto bg-gray-400 text-white rounded-xl">
+        <div className="flex-column max-w-[1150px] min-h-[600px] mx-auto bg-gray-400 text-white rounded-xl">
           <div className="flex items-center w-[full] h-[200px] bg-black rounded-t-xl">
             <img
-              className="absolute object-fill w-[850px] h-[200px] rounded-t-xl"
+              className="absolute object-fill w-[1150px] h-[200px] rounded-t-xl"
               src={
                 backgroundProfilePic == null
                   ? defaultProfileBackgroundPic
@@ -110,7 +110,7 @@ const Account = () => {
               )}
             </div>
             {user?.displayName == urlParam.displayName ? (
-              <div className="relative bottom-[32%] left-[67%]">
+              <div className="relative bottom-[32%] left-[75%]">
                 <ImageUploadingButton
                   className="w-[30px] h-[30px] z-10 bg-white rounded-full"
                   value={image}

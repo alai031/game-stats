@@ -3,14 +3,14 @@ import unrankedIcon from "../images/unranked.webp";
 
 const Unranked = (props) => {
   return (
-    <div className="flex-column items-center">
-      <img
-        className="relative left-24 max-w-[150px] max-h-[150px]"
-        src={unrankedIcon}
-        alt=""
-      />
-      <div className="text-center relative bottom-4 left-4">
-        {props.gameRank}
+    <div className="flex w-full justify-center">
+      <div className="flex-column">
+        <img
+          className="max-w-[150px] max-h-[150px]"
+          src={unrankedIcon}
+          alt=""
+        />
+        <div className="relative bottom-4 left-8">{props.gameRank}</div>
       </div>
     </div>
   );

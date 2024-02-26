@@ -49,12 +49,12 @@ async function getData() {
   var summonerNameUrl2 = "/tft/league/v1/entries/by-summoner/";
   var ranked_summoner_url =
     na_url + summonerNameUrl2 + summoner_id + "?api_key=" + API_key;
-  console.log(ranked_summoner_url);
+  //console.log(ranked_summoner_url);
 
   try {
     const rankedSummoner1 = await fetch(ranked_summoner_url);
     const rankedSummoner_full = await rankedSummoner1.json();
-    console.log(rankedSummoner_full);
+    //console.log(rankedSummoner_full);
     for (let i = 0; i < rankedSummoner_full.length; ++i) {
       let rankedSummoner_data = rankedSummoner_full[i];
       if (rankedSummoner_data.queueType == "RANKED_TFT") {

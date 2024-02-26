@@ -69,19 +69,38 @@ const AddGame = () => {
   const saveStat = async () => {
     if (user?.email) {
       setSaved(true);
-      try {
-        await updateDoc(statID, {
-          savedGames: arrayUnion({
-            GameType: gameOption,
-            GameUsername: summonerName,
-            GameLevel: summonerLvl,
-            GameRank: soloRank,
-            GameProfilePic: summonerProfilePic,
-          }),
-        });
-        navigate(`/${user.displayName}`);
-      } catch (error) {
-        alert("Failed to save game stat to db");
+      if (gameOption == "League of Legends") {
+        try {
+          await updateDoc(statID, {
+            savedGames: arrayUnion({
+              GameType: gameOption,
+              GameUsername: summonerName,
+              GameLevel: summonerLvl,
+              GameRank: soloRank,
+              GameProfilePic: summonerProfilePic,
+            }),
+          });
+          navigate(`/${user.displayName}`);
+        } catch (error) {
+          alert("Failed to save game stat to db");
+        }
+      } else if (gameOption == "Teamfight Tactics") {
+        try {
+          await updateDoc(statID, {
+            savedGames: arrayUnion({
+              GameType: gameOption,
+              GameUsername: summonerName,
+              GameLevel: summonerLvl,
+              GameProfilePic: summonerProfilePic,
+              SoloTftRank: soloTftRank,
+              DoublesTftRank: doublesTftRank,
+              HyperTftRank: hyperTftRank,
+            }),
+          });
+          navigate(`/${user.displayName}`);
+        } catch (error) {
+          alert("Failed to save game stat to db");
+        }
       }
     } else {
       alert("Please log in to save a game stat");

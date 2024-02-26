@@ -13,11 +13,13 @@ import diamondIcon from "../images/diamond.webp";
 import masterIcon from "../images/master.webp";
 import grandmasterIcon from "../images/grandmaster.webp";
 import leagueIcon from "../images/LeagueIcon.png";
+import tftIcon from "../images/tftIcon.png";
 import Challenger from "../leagueRankDisplays/Challenger";
 import Unranked from "../leagueRankDisplays/Unranked";
 import LeagueRank from "../leagueRankDisplays/LeagueRank";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import TftRank from "../tftRankDisplays/TftRank";
 
 const GameStats = () => {
   const urlParam = useParams();
@@ -41,11 +43,13 @@ const GameStats = () => {
     });
   }, [urlParam.displayName]);
 
-  const deleteStat = async (GameUsername) => {
+  const deleteStat = async (GameUsername, GameType) => {
     //console.log(urlParam.displayName);
+    console.log(GameUsername, GameType);
     try {
       const result = gameStats.filter(
-        (stat) => stat.GameUsername !== GameUsername
+        (stat) =>
+          stat.GameUsername !== GameUsername || stat.GameType !== GameType
       );
       await updateDoc(statRef, {
         savedGames: result,
@@ -103,7 +107,76 @@ const GameStats = () => {
                 {user?.displayName == urlParam.displayName ? (
                   <div className="">
                     <p
-                      onClick={() => deleteStat(stat.GameUsername)}
+                      onClick={() =>
+                        deleteStat(stat.GameUsername, stat.GameType)
+                      }
+                      className="pt-3 pr-3 hover:cursor-pointer"
+                    >
+                      <AiOutlineClose />
+                    </p>
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </div>
+
+              {/* bot half */}
+              <div className="flex"></div>
+            </div>
+          ) : (
+            <div></div>
+          )}
+          {stat.GameType == "Teamfight Tactics" ? (
+            <div className="flex h-full">
+              {/* top half */}
+              <div className="w-2/5">
+                <div className="flex h-full">
+                  <div className="pl-2 pr-6 pt-4 shrink-0">
+                    <img
+                      className="rounded-full w-[150px] h-[150px] border-[3px] border-black"
+                      src={stat.GameProfilePic}
+                      alt=""
+                    />
+                  </div>
+
+                  <div className="flex h-full items-center text-center mx-auto">
+                    <div className="">
+                      <p className="text-[27px]">{stat.GameUsername}</p>
+                      <p className="text-lg"> Level {stat.GameLevel}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="w-2/5">
+                <TftRank
+                  soloRank={stat.SoloTftRank}
+                  doublesRank={stat.DoublesTftRank}
+                  hyperRank={stat.HyperTftRank}
+                />
+              </div>
+
+              {/* {stat.GameRank} <br/> */}
+
+              <div className="flex w-1/5">
+                <div className="ml-8 flex w-full h-full items-center justify-center">
+                  {stat.GameType == "Teamfight Tactics" ? (
+                    <img
+                      className="max-w-[100px] max-h-[100px]"
+                      src={tftIcon}
+                      alt=""
+                    />
+                  ) : (
+                    <></>
+                  )}
+                </div>
+
+                {user?.displayName == urlParam.displayName ? (
+                  <div className="">
+                    <p
+                      onClick={() =>
+                        deleteStat(stat.GameUsername, stat.GameType)
+                      }
                       className="pt-3 pr-3 hover:cursor-pointer"
                     >
                       <AiOutlineClose />
