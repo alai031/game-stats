@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext";
 import search_summoner from "../context/script";
+import searchTftSummoner from "../context/tftScript";
 import {
   CheckIcon,
   ClockIcon,
@@ -21,26 +22,47 @@ const AddGame = () => {
   const [summonerProfilePic, setSummonerProfilePic] = useState("");
   const [gameOption, setGameOption] = useState("");
   const [soloRank, setSoloRank] = useState("");
+  const [soloTftRank, setSoloTftRank] = useState("");
+  const [doublesTftRank, setDoublesTftRank] = useState("");
+  const [hyperTftRank, setHyperTftRank] = useState("");
   const [usernameFound, setUsernameFound] = useState(false);
   const navigate = useNavigate();
 
   const statID = doc(db, "users", `${user?.displayName}`);
 
   const handleSubmit = async (e) => {
+    /* console.log(gameOption); */
     e.preventDefault();
     /* setError('') */
-    try {
-      var summonerInfo = await search_summoner(searchedName);
-      //console.log(summonerInfo)
-      setSummonerName(summonerInfo.name);
-      setSummonerLvl(summonerInfo.level);
-      setSummonerProfilePic(summonerInfo.profilePicUrl);
-      setSoloRank(summonerInfo.soloRank);
-      setSearching(true);
-      setUsernameFound(true);
-    } catch (error) {
-      //setSearching(false)
-      setUsernameFound(false);
+    if (gameOption == "League of Legends") {
+      try {
+        var summonerInfo = await search_summoner(searchedName);
+        //console.log(summonerInfo)
+        setSummonerName(summonerInfo.name);
+        setSummonerLvl(summonerInfo.level);
+        setSummonerProfilePic(summonerInfo.profilePicUrl);
+        setSoloRank(summonerInfo.soloRank);
+        setSearching(true);
+        setUsernameFound(true);
+      } catch (error) {
+        //setSearching(false)
+        setUsernameFound(false);
+      }
+    } else if (gameOption == "Teamfight Tactics") {
+      try {
+        var tftSummonerInfo = await searchTftSummoner(searchedName);
+        setSummonerName(tftSummonerInfo.name);
+        setSummonerLvl(tftSummonerInfo.level);
+        setSummonerProfilePic(tftSummonerInfo.profilePicUrl);
+        setSearching(true);
+        setUsernameFound(true);
+        setSoloTftRank(tftSummonerInfo.soloTftRank);
+        setDoublesTftRank(tftSummonerInfo.doublesTftRank);
+        setHyperTftRank(tftSummonerInfo.hyperTftRank);
+        console.log(tftSummonerInfo);
+      } catch (error) {
+        setUsernameFound(false);
+      }
     }
   };
 
@@ -66,6 +88,11 @@ const AddGame = () => {
     }
   };
 
+  const handleSwitch = (e) => {
+    setGameOption(e.target.value);
+    setSearching(false);
+  };
+
   return (
     <div className="w-full bg-gray-700">
       <div className="top-0 left-0 w-full">
@@ -86,7 +113,7 @@ const AddGame = () => {
                     </label>
                     <div className="relative text-black">
                       <select
-                        onChange={(e) => setGameOption(e.target.value)}
+                        onChange={handleSwitch}
                         id="customer"
                         name="customerID"
                         className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-black"
@@ -102,9 +129,12 @@ const AddGame = () => {
                         >
                           League of Legends
                         </option>
-                        {/* <option value="Teamfight Tactics" className='text-black'>
-                                            Teamfight Tactics (TFT)
-                                        </option> */}
+                        <option
+                          value="Teamfight Tactics"
+                          className="text-black"
+                        >
+                          Teamfight Tactics (TFT)
+                        </option>
                       </select>
                       <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
                     </div>
@@ -138,8 +168,8 @@ const AddGame = () => {
                         </div>
                       </div>
 
-                      {/* Player info */}
-                      {searching ? (
+                      {/* League Player info */}
+                      {searching && gameOption == "League of Legends" ? (
                         <div className="flex">
                           {usernameFound ? (
                             <div className="w-full">
@@ -153,6 +183,43 @@ const AddGame = () => {
                               Username: {summonerName} <br />
                               Level: {summonerLvl} <br />
                               Solo Queue Rank: {soloRank} <br />
+                              <div className="flex">
+                                {/* Add stats button */}
+                                <button
+                                  className="mx-auto shadow-xl shadow-gray-400 rounded-xl uppercase bg-gradient-to-r from-[#5651e5] to-[#709dff] text-white px-8 py-2 mt-6"
+                                  onClick={saveStat}
+                                >
+                                  Add stats
+                                </button>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="text-blue-600 font-medium">
+                              Error: Username not found. Try again.
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <></>
+                      )}
+
+                      {/* TFT Player info */}
+                      {searching && gameOption == "Teamfight Tactics" ? (
+                        <div className="flex">
+                          {usernameFound ? (
+                            <div className="w-full">
+                              Is this your account? <br />
+                              <img
+                                src={summonerProfilePic}
+                                alt="summonerProfilePic"
+                                className="pt-3 rounded-full"
+                                width="100"
+                              />
+                              Username: {summonerName} <br />
+                              Level: {summonerLvl} <br />
+                              Solo Rank: {soloTftRank} <br />
+                              Doubles Up Rank: {doublesTftRank} <br />
+                              Hyper Roll Rank: {hyperTftRank} <br />
                               <div className="flex">
                                 {/* Add stats button */}
                                 <button

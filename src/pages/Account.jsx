@@ -44,7 +44,7 @@ const Account = () => {
   };
 
   const onCropBackgroundPic = async (view) => {
-    console.log("HEY", view);
+    /* console.log("HEY", view); */
     try {
       await updateDoc(statID, {
         profileBackgroundPic: view,

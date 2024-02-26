@@ -1,14 +1,19 @@
-var API_key = process.env.REACT_APP_RIOT_API_LEAGUE_KEY;
+var API_key = process.env.REACT_APP_RIOT_API_TFT_KEY;
 var summoner_name = "";
-var na_url = "https://na1.api.riotgames.com";
 var summonerName = "";
 var summoner_level = "";
 var profile_pic_url = "";
-var soloRankData = "";
+var na_url = "https://na1.api.riotgames.com";
 var x;
+var soloTftRankData = "";
+var doublesTftRankData = "";
+var hyperTftRankData = "";
 
-export default async function search_summoner(name) {
+export default async function searchTftSummoner(name) {
   summoner_name = name;
+  soloTftRankData = "UNRANKED";
+  doublesTftRankData = "UNRANKED";
+  hyperTftRankData = "UNRANKED";
   try {
     x = await getData();
     console.log("Got data");
@@ -38,9 +43,10 @@ async function getData() {
     profile_pic_number +
     ".png";
 
-  // Ranked
+  // TFT Rank
   var summoner_id = dataSummoner_full.id;
-  var summonerNameUrl2 = "/lol/league/v4/entries/by-summoner/";
+  //console.log(summoner_id);
+  var summonerNameUrl2 = "/tft/league/v1/entries/by-summoner/";
   var ranked_summoner_url =
     na_url + summonerNameUrl2 + summoner_id + "?api_key=" + API_key;
   console.log(ranked_summoner_url);
@@ -48,24 +54,35 @@ async function getData() {
   try {
     const rankedSummoner1 = await fetch(ranked_summoner_url);
     const rankedSummoner_full = await rankedSummoner1.json();
-    const rankedSummoner_data = rankedSummoner_full[0];
-    console.log(rankedSummoner_data);
-    /* var summoner_wins = rankedSummoner_data.wins;
-        console.log(summoner_wins); */
-
-    //Solo Q Rank
-    var lp = rankedSummoner_data.leaguePoints;
-    soloRankData =
-      rankedSummoner_data.tier +
-      " " +
-      rankedSummoner_data.rank +
-      " " +
-      lp +
-      " LP";
-    //console.log(soloRankData);
+    console.log(rankedSummoner_full);
+    for (let i = 0; i < rankedSummoner_full.length; ++i) {
+      let rankedSummoner_data = rankedSummoner_full[i];
+      if (rankedSummoner_data.queueType == "RANKED_TFT") {
+        soloTftRankData =
+          rankedSummoner_data.tier +
+          " " +
+          rankedSummoner_data.rank +
+          " " +
+          rankedSummoner_data.leaguePoints +
+          " LP";
+        console.log(soloTftRankData);
+      } else if (rankedSummoner_data.queueType == "RANKED_TFT_DOUBLE_UP") {
+        doublesTftRankData =
+          rankedSummoner_data.tier +
+          " " +
+          rankedSummoner_data.rank +
+          " " +
+          rankedSummoner_data.leaguePoints +
+          " LP";
+        console.log(doublesTftRankData);
+      } else if (rankedSummoner_data.queueType == "RANKED_TFT_TURBO") {
+        hyperTftRankData =
+          rankedSummoner_data.ratedTier + " " + rankedSummoner_data.ratedRating;
+        console.log(hyperTftRankData);
+      }
+    }
   } catch (error) {
-    soloRankData = "UNRANKED";
-    console.log("Summoner is unranked in solo rank");
+    console.log("Summoner does not play any TFT");
   }
 
   //https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/811yjeWqjYbHDfOgF6Pr1ECrGWrkdsGcKq9xvZzQjIsLAgo?api_key=RGAPI-1bff78e5-ece8-4813-9c47-e8a1f7ae61f4
@@ -74,6 +91,8 @@ async function getData() {
     name: summonerName,
     level: summoner_level,
     profilePicUrl: profile_pic_url,
-    soloRank: soloRankData,
+    soloTftRank: soloTftRankData,
+    doublesTftRank: doublesTftRankData,
+    hyperTftRank: hyperTftRankData,
   };
 }
