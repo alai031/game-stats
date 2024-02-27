@@ -7,11 +7,11 @@ const TftRank = (props) => {
   return (
     <div className="flex">
       {/*  Solo rank */}
-      <SoloRank gameRank={props.soloRank} />
+      <SoloRank gameRank={props.soloRank} gameType="SoloTft" />
       {/*  Doubles rank */}
-      <DoublesRank gameRank={props.doublesRank} />
+      <DoublesRank gameRank={props.doublesRank} gameType="DoubleUp" />
       {/*  Hyper rank */}
-      <HyperRank gameRank={props.hyperRank} />
+      <HyperRank gameRank={props.hyperRank} gameType="Hyper" />
     </div>
   );
 };

@@ -16,14 +16,14 @@ const SoloRank = (props) => {
     <div>
       {/* Challenger */}
       {props.gameRank.includes("CHALLENGER") ? (
-        <Challenger gameRank={props.gameRank} />
+        <Challenger gameRank={props.gameRank} gameType={props.gameType} />
       ) : (
         <></>
       )}
 
       {/* Grandmaster */}
       {props.gameRank.includes("GRANDMASTER") ? (
-        <Grandmaster gameRank={props.gameRank} />
+        <Grandmaster gameRank={props.gameRank} gameType={props.gameType} />
       ) : (
         <></>
       )}
@@ -31,7 +31,7 @@ const SoloRank = (props) => {
       {/* Master */}
       {props.gameRank.includes("MASTER") && props.gameRank[0] != "G" ? (
         <div>
-          <Master gameRank={props.gameRank} />
+          <Master gameRank={props.gameRank} gameType={props.gameType} />
         </div>
       ) : (
         <></>
@@ -39,56 +39,58 @@ const SoloRank = (props) => {
 
       {/* Diamond */}
       {props.gameRank.includes("DIAMOND") ? (
-        <Diamond gameRank={props.gameRank} />
+        <Diamond gameRank={props.gameRank} gameType={props.gameType} />
       ) : (
         <></>
       )}
 
       {/* Emerald */}
       {props.gameRank.includes("EMERALD") ? (
-        <Emerald gameRank={props.gameRank} />
+        <Emerald gameRank={props.gameRank} gameType={props.gameType} />
       ) : (
         <></>
       )}
 
       {/* Platinum */}
       {props.gameRank.includes("PLATINUM") ? (
-        <Platinum gameRank={props.gameRank} />
+        <Platinum gameRank={props.gameRank} gameType={props.gameType} />
       ) : (
         <></>
       )}
 
       {/* Gold */}
       {props.gameRank.includes("GOLD") ? (
-        <Gold gameRank={props.gameRank} />
+        <Gold gameRank={props.gameRank} gameType={props.gameType} />
       ) : (
         <></>
       )}
 
       {/* Silver */}
       {props.gameRank.includes("SILVER") ? (
-        <Silver gameRank={props.gameRank} />
+        <Silver gameRank={props.gameRank} gameType={props.gameType} />
       ) : (
         <></>
       )}
 
       {/* Bronze */}
       {props.gameRank.includes("BRONZE") ? (
-        <Bronze gameRank={props.gameRank} />
+        <Bronze gameRank={props.gameRank} gameType={props.gameType} />
       ) : (
         <></>
       )}
 
       {/* Iron */}
       {props.gameRank.includes("IRON") ? (
-        <Iron gameRank={props.gameRank} />
+        <Iron gameRank={props.gameRank} gameType={props.gameType} />
       ) : (
         <></>
       )}
 
       {/* Unranked */}
       {props.gameRank.includes("UNRANKED") ? (
-        <Unranked gameRank={props.gameRank} />
+        <div>
+          <Unranked gameRank={props.gameRank} gameType={props.gameType} />
+        </div>
       ) : (
         <></>
       )}
