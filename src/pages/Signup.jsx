@@ -7,6 +7,7 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [emailError, setEmailError] = useState(false);
   const { user, signUp } = UserAuth();
   const navigate = useNavigate();
 
@@ -16,6 +17,7 @@ const Signup = () => {
       await signUp(email, password, username);
       navigate("/");
     } catch (error) {
+      setEmailError(true);
       console.log(error);
     }
   };
@@ -57,6 +59,14 @@ const Signup = () => {
                   placeholder="Password"
                   autoComplete="current-password"
                 />
+                {emailError ? (
+                  <div>
+                    Error: Email already used. Please sign up with a different
+                    email.
+                  </div>
+                ) : (
+                  <></>
+                )}
                 <button className="bg-red-600 py-3 my-6 rounded font-bold">
                   Sign Up
                 </button>
