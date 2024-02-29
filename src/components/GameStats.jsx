@@ -23,7 +23,7 @@ import TftRank from "../tftRankDisplays/TftRank";
 
 const GameStats = () => {
   const urlParam = useParams();
-  console.log(urlParam.displayName);
+  /* console.log(urlParam.displayName); */
   const { user } = UserAuth();
   /* const statRef = doc(db, "users", `${user?.displayName}`); */
   const statRef = doc(db, "users", urlParam.displayName);

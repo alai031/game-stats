@@ -7,19 +7,31 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  const [emailError, setEmailError] = useState(false);
+  const [usernameError, setUsernameError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
   const { user, signUp } = UserAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
+    setUsernameError(false);
+    setPasswordError(false);
     e.preventDefault();
     try {
       await signUp(email, password, username);
       navigate("/");
     } catch (error) {
-      setEmailError(true);
-      console.log(error);
+      if (error.code == "auth/email-already-in-use") {
+        setUsernameError(true);
+      } else if (error.code == "auth/weak-password") {
+        setPasswordError(true);
+      }
     }
+  };
+
+  const handleUsernameChange = async (e) => {
+    e.preventDefault();
+    setUsername(e.target.value);
+    setEmail(e.target.value + "@domain.com");
   };
 
   return (
@@ -39,15 +51,15 @@ const Signup = () => {
                 onSubmit={handleSubmit}
                 className="w-full flex flex-col py-4"
               >
-                <input
+                {/* <input
                   onChange={(e) => setEmail(e.target.value)}
                   className="p-3 my-2 bg-gray-700 rounded"
                   type="email"
                   placeholder="Email"
                   autoComplete="email"
-                />
+                /> */}
                 <input
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={handleUsernameChange}
                   className="p-3 my-2 bg-gray-700 rounded"
                   type="username"
                   placeholder="Username"
@@ -59,11 +71,16 @@ const Signup = () => {
                   placeholder="Password"
                   autoComplete="current-password"
                 />
-                {emailError ? (
+                {usernameError ? (
                   <div>
-                    Error: Email already used. Please sign up with a different
-                    email.
+                    Error: Username already used. Please sign up with a
+                    different username.
                   </div>
+                ) : (
+                  <></>
+                )}
+                {passwordError ? (
+                  <div>Error: Password should be at least 6 characters.</div>
                 ) : (
                   <></>
                 )}
