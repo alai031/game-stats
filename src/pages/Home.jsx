@@ -11,16 +11,19 @@ const Home = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    onSnapshot(doc(db, "users", username), (doc) => {
-      if (doc.data() == undefined) {
-        setUsernameFound(false);
-      } else {
-        setUsernameFound(true);
-        navigate(`/${username}`);
-      }
-    });
-    //navigate(`/${username}`);
-    console.log(username);
+    try {
+      onSnapshot(doc(db, "users", username), (doc) => {
+        if (doc.data() == undefined) {
+          setUsernameFound(false);
+        } else {
+          setUsernameFound(true);
+          navigate(`/${username}`);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    //console.log(username);
   };
 
   return (
@@ -40,12 +43,31 @@ const Home = () => {
               onSubmit={handleSubmit}
               className="w-[100%] flex flex-col py-4"
             >
-              <input
-                onChange={(e) => setUsername(e.target.value)}
-                className="outline-none p-3 my-2 bg-white-700 rounded border-[3px] border-blue-400"
-                type="username"
-                placeholder="Search for a user (Type '123456' to see example)"
-              />
+              <div className="relative">
+                <div class="absolute inset-y-0 start-2 flex items-center ps-3 pointer-events-none">
+                  <svg
+                    class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                    />
+                  </svg>
+                </div>
+                <input
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="ps-12 w-[500px] outline-none p-3 my-2 bg-white-700 rounded-3xl border-[3px] border-blue-400"
+                  type="username"
+                  placeholder="Search for a user (Type '123456' to see an example profile)"
+                />
+              </div>
               {!usernameFound ? (
                 <div className="text-blue-500 font-medium">
                   Error: Username not found. Please search again.
@@ -53,9 +75,6 @@ const Home = () => {
               ) : (
                 <></>
               )}
-              <button className="bg-blue-400 py-3 my-4 rounded-lg font-bold min-w-[30%] mx-auto">
-                Search
-              </button>
             </form>
           </div>
         </div>
