@@ -1,4 +1,4 @@
-var API_key = process.env.REACT_APP_RIOT_API_TFT_KEY;
+var tft_API_key = process.env.REACT_APP_RIOT_API_TFT_KEY;
 var summoner_name = "";
 var summonerName = "";
 var summoner_level = "";
@@ -24,8 +24,9 @@ export default async function searchTftSummoner(name) {
 }
 
 async function getData() {
-  var summonerNameUrl = "/lol/summoner/v4/summoners/by-name/" + summoner_name;
-  var fullSummonerNameUrl = na_url + summonerNameUrl + "?api_key=" + API_key;
+  var summonerNameUrl = "/tft/summoner/v1/summoners/by-name/" + summoner_name;
+  var fullSummonerNameUrl =
+    na_url + summonerNameUrl + "?api_key=" + tft_API_key;
   //console.log(fullSummonerNameUrl);
   const dataSummoner_1 = await fetch(fullSummonerNameUrl);
   const dataSummoner_full = await dataSummoner_1.json();
@@ -45,11 +46,11 @@ async function getData() {
 
   // TFT Rank
   var summoner_id = dataSummoner_full.id;
-  //console.log(summoner_id);
+  //console.log("summonerID", summoner_id);
   var summonerNameUrl2 = "/tft/league/v1/entries/by-summoner/";
   var ranked_summoner_url =
-    na_url + summonerNameUrl2 + summoner_id + "?api_key=" + API_key;
-  //console.log(ranked_summoner_url);
+    na_url + summonerNameUrl2 + summoner_id + "?api_key=" + tft_API_key;
+  //console.log("hey", ranked_summoner_url);
 
   try {
     const rankedSummoner1 = await fetch(ranked_summoner_url);
