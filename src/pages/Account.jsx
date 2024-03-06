@@ -44,7 +44,6 @@ const Account = () => {
   };
 
   const onCropBackgroundPic = async (view) => {
-    /* console.log("HEY", view); */
     try {
       await updateDoc(statID, {
         profileBackgroundPic: view,
@@ -69,11 +68,6 @@ const Account = () => {
   const handleProfilePicClick = () => {
     setProfileImg(true);
     setBackgroundToggle(false);
-  };
-
-  const handleProfileBackgroundPicClick = () => {
-    setProfileImg(true);
-    setBackgroundToggle(true);
   };
 
   return (
@@ -141,12 +135,6 @@ const Account = () => {
               <></>
             )}
             <div className="pl-4 text-[40px] z-10">{urlParam.displayName}</div>
-            {/* <button
-              onClick={handleProfileBackgroundPicClick}
-              className="w-[30px] h-[30px] relative bottom-[33%] left-[47%] z-10 bg-white rounded-full"
-            >
-              HEY
-            </button> */}
           </div>
 
           {user?.displayName == urlParam.displayName ? (
@@ -187,10 +175,18 @@ const Account = () => {
               </p>
               <div className="pb-8 h-[100%] flex items-center justify-center">
                 <Avatar
-                  className=""
-                  labelStyle={{ color: "black" }}
+                  className="mb-8"
+                  labelStyle={{
+                    position: "",
+                    display: "block",
+                    color: "black",
+                    width: 300,
+                    height: 300,
+                  }}
                   width={300}
                   height={300}
+                  /* imageWidth={400}
+                  imageHeight={400} */
                   onCrop={
                     backgroundToggle == false ? onCrop : onCropBackgroundPic
                   }
