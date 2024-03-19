@@ -116,7 +116,7 @@ const AddGame = () => {
     <div className="w-full bg-gray-700">
       <div className="top-0 left-0 w-full">
         <div className="flex w-full px-y py-24 z-50">
-          <div className="min-w-[450px] min-h-[600px] mx-auto bg-black/75 text-white">
+          <div className="min-w-[450px] min-h-[600px] mx-auto bg-black/75 rounded-lg text-white">
             <div className="max-w-[320px] mx-auto py-16">
               <h1 className="text-3xl font-bold">Add a Game Stat</h1>
 
